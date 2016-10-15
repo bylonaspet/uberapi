@@ -1,6 +1,6 @@
 {
   "require": {
-    "guzzlehttp/guzzle": "^6.2",
-    "stevenmaguire/uber-php": "*"
+    "guzzlehttp/guzzle": "^5.2",
+    "stevenmaguire/uber-php": "^1.0"
   }
 }
