@@ -29,6 +29,8 @@ foreach ($requiredQueryArgs as $arg) {
 		return $fail(sprintf('Missing parameter %s', $arg), 404);
 	}
 }
+echo "params ok";
+
 
 $guzzle = new Client(['verify' => false]);
 
