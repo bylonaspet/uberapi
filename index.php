@@ -33,7 +33,7 @@ echo "params ok";
 
 
 
-echo "uber ok"
+echo "uber ok";
 
 $guzzle = new Client(['verify' => false]);
 
