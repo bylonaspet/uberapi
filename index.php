@@ -16,7 +16,7 @@ $fail = function ($reason, $code) {
 };
 
 $requiredQueryArgs = [
-  ride_prices,
+  'ride_prices',
 ];
 
 foreach ($requiredQueryArgs as $arg) {
