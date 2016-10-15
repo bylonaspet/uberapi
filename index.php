@@ -8,6 +8,7 @@ use Stevenmaguire\Uber\Client;
 use GuzzleHttp\Client as GuzzleClient;
 
 header('Content-Type: application/json; charset=utf-8');
+//header('Content-Type: text/html; charset=utf-8');
 
 $fail = function ($reason, $code) {
 	http_response_code((int) $code);
@@ -37,29 +38,77 @@ $client->setVersion('v1.2');
 
 $requestIds = [];
 try {
-	$history = $client->getHistory(['limit' => 50]);
-	foreach ($history->history as $ride) {
-		$requestIds[] = $ride->request_id;
-	}
+	// $history = $client->getHistory(['limit' => 50]);
+	//foreach ($history->history as $ride) {
+	//	$requestIds[] = $ride->request_id;
+	//}
+	$requestIds = range(0, 9);
 
 } catch (\Exception $e) {
 	return $fail($e->getMessage(), 500);
 }
 
-foreach ($requestIds as $requestId) {
-	try {
-		$response = $guzzle->get('https://sandbox-api.uber.com/v1/requests/' . $requestId . '/receipt', [
-			'headers' => [
-				'Authorization' => 'Bearer ' . $accessToken,
-				'Accept-Language' => 'en_US',
-			],
-		]);
-		echo $response->getBody();
-		return;
+$fakeRequestReceipt = [
+	"request_id" => "b5512127-a134-4bf4-b1ba-fe9f48f56d9d",
+	"charges" => [
+		[
+			"name" => "Base Fare",
+			"amount" => "2.20",
+			"type" => "base_fare"
+		],
+		[
+			"name" => "Distance",
+			"amount" => "2.75",
+			"type" => "distance"
+		],
+		[
+			"name" => "Time",
+			"amount" => "3.57",
+			"type" => "time"
+		]
+	],
+	"surge_charge" => [
+		"name" => "Surge x1.5",
+		"amount" => "4.26",
+		"type" => "surge"
+	],
+	"charge_adjustments" => [
+		[
+			"name" => "Promotion",
+			"amount" => "-2.43",
+			"type" => "promotion"
+		],
+		[
+			"name" => "Booking Fee",
+			"amount" => "1.00",
+			"type" => "booking_fee"
+		],
+		[
+			"name" => "Rounding Down",
+			"amount" => "0.78",
+			"type" => "rounding_down"
+		],
+	],
+	"normal_fare" => "$8.52",
+	"subtotal" => "$12.78",
+	"total_charged" => "$5.92",
+	"total_owed" => null,
+	"total_fare" => "$5.92",
+	"currency_code" => "USD",
+	"duration" => "00=>11=>35",
+	"distance" => "1.49",
+	"distance_label" => "miles"
+];
 
-	} catch (\Exception $e) {
-		return $fail($e->getMessage(), 500);
-	}
+$response = [];
+foreach ($requestIds as $requestId) {
+	echo \json_encode([
+		'trip_length' => '6.5km',
+		'start_time' => '15.10.2016 03:44 AM',
+		'end_time' => '15.10.2016 03:53 AM',
+		'map_link' => 'https://imgur.com/ovc4UaU',
+	]);
+	return;
 }
 
 return $fail('fail', 404);
